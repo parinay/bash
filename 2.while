@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "INPUT_STRING:"
+read INPUT_STRING
+
+if [ ${INPUT_STRING} != "bye" ]
+then
+	echo "HELLO $INPUT_STRING!"
+else
+	echo "Bye bye!"	
+fi
