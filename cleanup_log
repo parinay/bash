@@ -1,0 +1,38 @@
+#!/bin/bash
+
+LOG_DIR=/var/log
+ROOT_UID=0
+LINES=85
+E_XCD=101
+E_NOTROOT=102
+
+if [ $UID -ne "$ROOT_UID" ]; then
+	echo "Must be root user to run the script."
+	exit $E_NOTROOT
+fi
+
+if [ -n "$1" ]; then
+	lines=$1
+else
+	lines=$LINES
+fi
+
+cd $LOG_DIR || {
+	echo "Can't change dir to $LOG_DIR."
+	exit $E_XCD
+}
+
+#if [ $(pwd) != "$LOG_DIR" ]; then
+#	echo "Can't change dir to $LOG_DIR."
+#	exit $E_XCD
+#fi
+
+tail -n $lines messages > mesg.temp
+mv mesg.temp messages
+
+cat /dev/null > wtmp
+
+echo "Log files cleaned up."
+
+exit 0
+
